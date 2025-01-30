@@ -32,14 +32,6 @@ public class CameraControls : MonoBehaviour
 
         camRotation = new Vector3(Mathf.Clamp(camRotation.x + yMovement, -90, 90), camRotation.y + xMovement, camRotation.z);
 
-        if (Input.GetMouseButton(0))
-        {
-            camTransform.eulerAngles = camRotation;
-        }
-        else
-        {
-            transform.eulerAngles = camRotation;
-        }
-
+        transform.eulerAngles = camRotation;
     }
 }
