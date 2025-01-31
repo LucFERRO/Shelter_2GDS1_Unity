@@ -15,27 +15,30 @@ public class CameraControls : MonoBehaviour
     private float yMovement;
     private Vector3 camHolderRotation;
     private Vector3 camRotation;
-    private Vector3 startingRotation;
+    public Vector3 startingRotation;
+    public Vector3 startingCamRotation;
     void Start()
     {
         //camTransform = GetComponentInChildren<Transform>();
         cam = GetComponentInChildren<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        startingRotation = transform.position;
+        //startingRotation = transform.position;
+        startingCamRotation.y += startingRotation.y;
+        cam.transform.eulerAngles = startingCamRotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        movement = -Input.GetAxisRaw("Horizontal");
+        movement = -Input.GetAxisRaw("Horizontal") * 0.5f;
         xMovement = Input.GetAxisRaw("Mouse X") * horizontalSensitivity;
         yMovement = -Input.GetAxisRaw("Mouse Y") * verticalSensitivity;
 
-        camHolderRotation = new Vector3(Mathf.Clamp(camHolderRotation.x, -90, 90), Mathf.Clamp(camHolderRotation.y + movement, -92, 27) , camHolderRotation.z);
+        camHolderRotation = new Vector3(Mathf.Clamp(camHolderRotation.x, -90, 90), Mathf.Clamp(camHolderRotation.y + movement, -112 - startingRotation.y, 27 - startingRotation.y) , camHolderRotation.z);
         camRotation = new Vector3(Mathf.Clamp(camRotation.x + yMovement, -90, 90), camRotation.y + xMovement, camRotation.z);
 
-        cam.transform.eulerAngles = camRotation;
-        transform.eulerAngles = camHolderRotation;
+        cam.transform.eulerAngles = startingCamRotation + camRotation;
+        transform.eulerAngles = camHolderRotation + startingRotation;
     }
 }
