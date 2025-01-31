@@ -31,11 +31,11 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement = -Input.GetAxisRaw("Horizontal") * 0.5f;
+        movement = -Input.GetAxisRaw("Horizontal");
         xMovement = Input.GetAxisRaw("Mouse X") * horizontalSensitivity;
         yMovement = -Input.GetAxisRaw("Mouse Y") * verticalSensitivity;
 
-        camHolderRotation = new Vector3(Mathf.Clamp(camHolderRotation.x, -90, 90), Mathf.Clamp(camHolderRotation.y + movement, -112 - startingRotation.y, 27 - startingRotation.y) , camHolderRotation.z);
+        camHolderRotation = new Vector3(Mathf.Clamp(camHolderRotation.x, -90, 90), Mathf.Clamp(camHolderRotation.y + movement * 0.15f, -112 - startingRotation.y, 27 - startingRotation.y) , camHolderRotation.z);
         camRotation = new Vector3(Mathf.Clamp(camRotation.x + yMovement, -90, 90), camRotation.y + xMovement, camRotation.z);
 
         cam.transform.eulerAngles = startingCamRotation + camRotation;
